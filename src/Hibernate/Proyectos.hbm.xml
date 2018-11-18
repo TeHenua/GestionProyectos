@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-nov-2018 18:36:46 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="Hibernate.Proyectos" table="proyectos" catalog="Proyectos">
+        <id name="codigo" type="string">
+            <column name="codigo" length="6" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" not-null="true" />
+        </property>
+        <property name="ciudad" type="string">
+            <column name="ciudad" length="40" />
+        </property>
+        <set name="gestions" table="gestion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="codproyecto" length="6" not-null="true" />
+            </key>
+            <one-to-many class="Hibernate.Gestion" />
+        </set>
+    </class>
+</hibernate-mapping>

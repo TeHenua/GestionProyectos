@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18-nov-2018 18:36:46 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="Hibernate.Gestion" table="gestion" catalog="Proyectos">
+        <composite-id name="id" class="Hibernate.GestionId">
+            <key-property name="codproveedor" type="string">
+                <column name="codproveedor" length="6" />
+            </key-property>
+            <key-property name="codpieza" type="string">
+                <column name="codpieza" length="6" />
+            </key-property>
+            <key-property name="codproyecto" type="string">
+                <column name="codproyecto" length="6" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="piezas" class="Hibernate.Piezas" update="false" insert="false" fetch="select">
+            <column name="codpieza" length="6" not-null="true" />
+        </many-to-one>
+        <many-to-one name="proyectos" class="Hibernate.Proyectos" update="false" insert="false" fetch="select">
+            <column name="codproyecto" length="6" not-null="true" />
+        </many-to-one>
+        <property name="cantidad" type="java.lang.Float">
+            <column name="cantidad" precision="12" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
