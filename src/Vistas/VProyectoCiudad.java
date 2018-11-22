@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 
-public class ProveedorCodigo extends JFrame {
+public class VProyectoCiudad extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -25,7 +25,7 @@ public class ProveedorCodigo extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ProveedorCodigo frame = new ProveedorCodigo();
+					VProyectoCiudad frame = new VProyectoCiudad();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,39 +37,40 @@ public class ProveedorCodigo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ProveedorCodigo() {
-		setTitle("Consulta de Proveedores por c\u00F3digo");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public VProyectoCiudad() {
+		setTitle("Consulta de Proveedores por ciudad");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblEscribeElCdigo = new JLabel("Escribe el c\u00F3digo o parte del c\u00F3digo");
-		lblEscribeElCdigo.setFont(new Font("Verdana", Font.PLAIN, 18));
-		lblEscribeElCdigo.setBounds(57, 35, 326, 26);
-		contentPane.add(lblEscribeElCdigo);
+		JLabel lblEscribeLaCiudad = new JLabel("Escribe la ciudad o parte de ella");
+		lblEscribeLaCiudad.setFont(new Font("Verdana", Font.PLAIN, 18));
+		lblEscribeLaCiudad.setBounds(48, 38, 351, 26);
+		contentPane.add(lblEscribeLaCiudad);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Verdana", Font.PLAIN, 18));
 		textField.setColumns(10);
-		textField.setBounds(395, 35, 116, 26);
+		textField.setBounds(411, 38, 116, 26);
 		contentPane.add(textField);
 		
-		JButton btnBuscarProveedor = new JButton("Buscar Proveedor");
-		btnBuscarProveedor.setFont(new Font("Verdana", Font.PLAIN, 18));
-		btnBuscarProveedor.setBounds(523, 35, 285, 25);
-		contentPane.add(btnBuscarProveedor);
+		JButton btnBuscarProyecto = new JButton("Buscar Proyecto");
+		btnBuscarProyecto.setFont(new Font("Verdana", Font.PLAIN, 18));
+		btnBuscarProyecto.setBounds(539, 38, 285, 25);
+		contentPane.add(btnBuscarProyecto);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setFont(new Font("Verdana", Font.PLAIN, 18));
-		comboBox.setBounds(226, 100, 385, 26);
+		comboBox.setBounds(242, 103, 385, 26);
 		contentPane.add(comboBox);
 		
 		JTextPane textPane = new JTextPane();
 		textPane.setFont(new Font("Verdana", Font.PLAIN, 15));
-		textPane.setBounds(226, 158, 385, 263);
+		textPane.setBounds(242, 161, 385, 263);
 		contentPane.add(textPane);
 	}
+
 }

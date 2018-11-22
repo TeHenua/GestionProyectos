@@ -19,7 +19,7 @@ public class Main {
 		
 		Proyectos p = new Proyectos();
 		p.setNombre("Nombre");
-		p.setCodigo("13");
+		p.setCodigo("14");
 		p.setCiudad("Vitoria");
 		session.save(p);
 		tx.commit();
