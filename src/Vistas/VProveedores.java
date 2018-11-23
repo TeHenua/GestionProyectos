@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -31,20 +32,25 @@ public class VProveedores extends JFrame {
 	private JTextField tfNombre;
 	private JTextField tfApellidos;
 	private JTextField tfDireccion;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField jtlCodigo;
+	private JTextField jtlNombre;
+	private JTextField jtlApellidos;
+	private JTextField jtlDireccion;
+	private JTextField jtlPag;
+	private JTextField jtlPagTotal;
 	private JButton btnInsertar;
 	private JButton btnModificar;
 	private JButton btnEliminar;
 	private JButton btnBuscar;
+	private JButton btInicio;
+	private JButton btAnterior;
+	private JButton btSiguiente;
+	private JButton btFin;
 	public JTabbedPane tabbedPane;
 	private Proveedores p;
 	private List<Proveedores> proveedores;
 	public Modo modo;
+	private int proveedorActual=0;
 	
 	
 	public void cambiarModo(Modo modo){
@@ -67,11 +73,44 @@ public class VProveedores extends JFrame {
 				btnInsertar.setEnabled(false);
 				btnEliminar.setEnabled(true);
 				btnModificar.setEnabled(false);
-				btnBuscar.setVisible(false);
+				btnBuscar.setVisible(true);
+				cargarProveedores();
+				break;
+			case LISTAR:
+				tabbedPane.setSelectedIndex(1);
+				cargarProveedores();
 				break;
 		}
 	}
 	
+	public void comprobarBotones(){
+		if(proveedorActual==0){	
+			btInicio.setEnabled(false);
+			btAnterior.setEnabled(false);
+			btSiguiente.setEnabled(true);
+			btFin.setEnabled(true);
+		}else if(proveedorActual>0 && proveedorActual<proveedores.size()-1){
+			btInicio.setEnabled(true);
+			btAnterior.setEnabled(true);
+			btSiguiente.setEnabled(true);
+			btFin.setEnabled(true);
+		}else if(proveedorActual==proveedores.size()-1){
+			btInicio.setEnabled(true);
+			btAnterior.setEnabled(true);
+			btSiguiente.setEnabled(false);
+			btFin.setEnabled(false);
+		}
+	}
+
+	public void llenarCamposListado() {
+		jtlCodigo.setText(proveedores.get(proveedorActual).getCodigo());
+		jtlNombre.setText(proveedores.get(proveedorActual).getNombre());
+		jtlApellidos.setText(proveedores.get(proveedorActual).getApellidos());
+		jtlDireccion.setText(proveedores.get(proveedorActual).getDireccion());
+		jtlPag.setText(String.valueOf(proveedorActual+1));
+		jtlPagTotal.setText(String.valueOf(proveedores.size()));
+	}
+
 	public void rellenarCampos(){
 		tfCodigo.setText(p.getCodigo());
 		tfNombre.setText(p.getNombre());
@@ -182,6 +221,7 @@ public class VProveedores extends JFrame {
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean encontrado = false;
 				if(!tfCodigo.getText().equalsIgnoreCase("")){
 					Iterator it = proveedores.iterator();
 					while(it.hasNext()){
@@ -189,9 +229,15 @@ public class VProveedores extends JFrame {
 						if(pro.getCodigo().equalsIgnoreCase(tfCodigo.getText())){
 							p = pro;
 							rellenarCampos();
+							encontrado = true;
 							break;
 						}
 					}
+					if(!encontrado){
+						JOptionPane.showMessageDialog(contentPane, "Proveedor no encontrado", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Debes escribir algo que buscar", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -257,6 +303,11 @@ public class VProveedores extends JFrame {
 		btnModificar.setFont(new Font("Verdana", Font.PLAIN, 16));
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Sesion.borrar(p);
+			}
+		});
 		btnEliminar.setBounds(375, 5, 107, 31);
 		panel_3.add(btnEliminar);
 		btnEliminar.setFont(new Font("Verdana", Font.PLAIN, 16));
@@ -282,85 +333,124 @@ public class VProveedores extends JFrame {
 		label_1.setBounds(189, 117, 194, 26);
 		pListado.add(label_1);
 		
-		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_4.setColumns(10);
-		textField_4.setBounds(395, 117, 116, 26);
-		pListado.add(textField_4);
+		jtlCodigo = new JTextField();
+		jtlCodigo.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlCodigo.setColumns(10);
+		jtlCodigo.setBounds(395, 117, 116, 26);
+		pListado.add(jtlCodigo);
 		
 		JLabel label_2 = new JLabel("Nombre");
 		label_2.setFont(new Font("Verdana", Font.PLAIN, 18));
 		label_2.setBounds(189, 156, 126, 26);
 		pListado.add(label_2);
 		
-		textField_5 = new JTextField();
-		textField_5.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_5.setColumns(10);
-		textField_5.setBounds(395, 156, 275, 26);
-		pListado.add(textField_5);
+		jtlNombre = new JTextField();
+		jtlNombre.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlNombre.setColumns(10);
+		jtlNombre.setBounds(395, 156, 275, 26);
+		pListado.add(jtlNombre);
 		
 		JLabel label_3 = new JLabel("Apellidos");
 		label_3.setFont(new Font("Verdana", Font.PLAIN, 18));
 		label_3.setBounds(189, 195, 126, 26);
 		pListado.add(label_3);
 		
-		textField_6 = new JTextField();
-		textField_6.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_6.setColumns(10);
-		textField_6.setBounds(395, 195, 275, 26);
-		pListado.add(textField_6);
+		jtlApellidos = new JTextField();
+		jtlApellidos.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlApellidos.setColumns(10);
+		jtlApellidos.setBounds(395, 195, 275, 26);
+		pListado.add(jtlApellidos);
 		
 		JLabel label_4 = new JLabel("Direcci\u00F3n");
 		label_4.setFont(new Font("Verdana", Font.PLAIN, 18));
 		label_4.setBounds(189, 234, 126, 26);
 		pListado.add(label_4);
 		
-		textField_7 = new JTextField();
-		textField_7.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_7.setColumns(10);
-		textField_7.setBounds(395, 234, 275, 26);
-		pListado.add(textField_7);
+		jtlDireccion = new JTextField();
+		jtlDireccion.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlDireccion.setColumns(10);
+		jtlDireccion.setBounds(395, 234, 275, 26);
+		pListado.add(jtlDireccion);
 		
-		textField_8 = new JTextField();
-		textField_8.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_8.setColumns(10);
-		textField_8.setBounds(189, 273, 43, 26);
-		pListado.add(textField_8);
+		jtlPag = new JTextField();
+		jtlPag.setEnabled(false);
+		jtlPag.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlPag.setColumns(10);
+		jtlPag.setBounds(189, 273, 43, 26);
+		pListado.add(jtlPag);
 		
-		textField_9 = new JTextField();
-		textField_9.setFont(new Font("Verdana", Font.PLAIN, 18));
-		textField_9.setColumns(10);
-		textField_9.setBounds(279, 273, 43, 26);
-		pListado.add(textField_9);
+		jtlPagTotal = new JTextField();
+		jtlPagTotal.setEnabled(false);
+		jtlPagTotal.setFont(new Font("Verdana", Font.PLAIN, 18));
+		jtlPagTotal.setColumns(10);
+		jtlPagTotal.setBounds(279, 273, 43, 26);
+		pListado.add(jtlPagTotal);
 		
 		JLabel lblDe = new JLabel("de");
 		lblDe.setFont(new Font("Verdana", Font.PLAIN, 18));
 		lblDe.setBounds(244, 273, 32, 26);
 		pListado.add(lblDe);
 		
-		JButton button = new JButton("|<<");
-		button.setFont(new Font("Verdana", Font.PLAIN, 18));
-		button.setBounds(334, 273, 71, 25);
-		pListado.add(button);
+		btInicio = new JButton("|<<");
+		btInicio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				proveedorActual=0;
+				llenarCamposListado();
+				comprobarBotones();
+			}
+		});
+		btInicio.setFont(new Font("Verdana", Font.PLAIN, 16));
+		btInicio.setBounds(334, 273, 71, 25);
+		pListado.add(btInicio);
 		
-		JButton button_1 = new JButton("<<");
-		button_1.setFont(new Font("Verdana", Font.PLAIN, 18));
-		button_1.setBounds(417, 273, 71, 25);
-		pListado.add(button_1);
+		btAnterior = new JButton("<<");
+		btAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				proveedorActual-=1;
+				llenarCamposListado();
+				comprobarBotones();
+			}
+		});
+		btAnterior.setFont(new Font("Verdana", Font.PLAIN, 16));
+		btAnterior.setBounds(417, 273, 71, 25);
+		pListado.add(btAnterior);
 		
-		JButton button_2 = new JButton(">>");
-		button_2.setFont(new Font("Verdana", Font.PLAIN, 18));
-		button_2.setBounds(516, 273, 71, 25);
-		pListado.add(button_2);
+		btSiguiente = new JButton(">>");
+		btSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				proveedorActual+=1;
+				llenarCamposListado();
+				comprobarBotones();
+			}
+		});
+		btSiguiente.setFont(new Font("Verdana", Font.PLAIN, 16));
+		btSiguiente.setBounds(516, 273, 71, 25);
+		pListado.add(btSiguiente);
 		
-		JButton button_3 = new JButton(">>|");
-		button_3.setFont(new Font("Verdana", Font.PLAIN, 18));
-		button_3.setBounds(599, 273, 71, 25);
-		pListado.add(button_3);
+		btFin = new JButton(">>|");
+		btFin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				proveedorActual=proveedores.size()-1;
+				llenarCamposListado();
+				comprobarBotones();
+			}
+		});
+		btFin.setFont(new Font("Verdana", Font.PLAIN, 16));
+		btFin.setBounds(599, 273, 71, 25);
+		pListado.add(btFin);
 		
 		JButton btnEjecutarConsultla = new JButton("Ejecutar consulta");
+		btnEjecutarConsultla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				proveedorActual = 0;
+				llenarCamposListado();
+				comprobarBotones();
+			}
+		});
 		btnEjecutarConsultla.setFont(new Font("Verdana", Font.PLAIN, 18));
 		btnEjecutarConsultla.setBounds(189, 311, 481, 25);
 		pListado.add(btnEjecutarConsultla);
 	}
+
+
 }

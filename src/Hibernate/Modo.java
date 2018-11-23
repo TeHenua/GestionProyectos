@@ -1,5 +1,5 @@
 package Hibernate;
 
 public enum Modo {
-	INSERTAR,MODIFICAR,ELIMINAR
+	INSERTAR,MODIFICAR,ELIMINAR,LISTAR
 }

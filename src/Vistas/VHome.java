@@ -94,7 +94,7 @@ public class VHome extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				VProveedores vp = new VProveedores();
 				vp.setVisible(true);
-				vp.tabbedPane.setSelectedIndex(1);
+				vp.cambiarModo(Modo.LISTAR);
 			}
 		});
 		mnGestinDeProveedores.add(mntmListado);
@@ -103,6 +103,13 @@ public class VHome extends JFrame {
 		mnProveedores.add(mnConsultaDeProveedores);
 		
 		JMenuItem mntmPorCdigo = new JMenuItem("Consulta por C\u00F3digo");
+		mntmPorCdigo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProveedorCodigo vpc = new VProveedorCodigo();
+				vpc.setVisible(true);
+				vpc.cargarProveedores();
+			}
+		});
 		mnConsultaDeProveedores.add(mntmPorCdigo);
 		
 		JMenuItem mntmPorNombre = new JMenuItem("Consulta por Nombre");

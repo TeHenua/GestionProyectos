@@ -1,9 +1,8 @@
 package Hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -55,5 +54,14 @@ public class Sesion {
 		query = session.createQuery("from Proveedores");
 		List<Proveedores> proveedores = query.list();
 		return proveedores;
+	}
+
+	public static void borrar(Object object) {
+		sesion();
+		tx = session.beginTransaction();
+		session.delete(object);
+		tx.commit();
+		System.out.println("Eliminado " + object.getClass());
+		session.close();
 	}
 }
