@@ -113,9 +113,23 @@ public class VHome extends JFrame {
 		mnConsultaDeProveedores.add(mntmPorCdigo);
 		
 		JMenuItem mntmPorNombre = new JMenuItem("Consulta por Nombre");
+		mntmPorNombre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProveedorNombre vpc = new VProveedorNombre();
+				vpc.setVisible(true);
+				vpc.cargarProveedores();
+			}
+		});
 		mnConsultaDeProveedores.add(mntmPorNombre);
 		
 		JMenuItem mntmPorDireccin = new JMenuItem("Consulta por Direcci\u00F3n");
+		mntmPorDireccin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProveedorDireccion vpc = new VProveedorDireccion();
+				vpc.setVisible(true);
+				vpc.cargarProveedores();
+			}
+		});
 		mnConsultaDeProveedores.add(mntmPorDireccin);
 		
 		JMenu mnPiezas = new JMenu("Piezas");

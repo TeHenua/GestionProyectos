@@ -24,6 +24,12 @@ import java.awt.GridLayout;
 import Hibernate.Modo;
 import Hibernate.Proveedores;
 import Hibernate.Sesion;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class VProveedores extends JFrame {
 
@@ -41,7 +47,6 @@ public class VProveedores extends JFrame {
 	private JButton btnInsertar;
 	private JButton btnModificar;
 	private JButton btnEliminar;
-	private JButton btnBuscar;
 	private JButton btInicio;
 	private JButton btAnterior;
 	private JButton btSiguiente;
@@ -60,20 +65,23 @@ public class VProveedores extends JFrame {
 				btnInsertar.setEnabled(true);
 				btnEliminar.setEnabled(false);
 				btnModificar.setEnabled(false);
-				btnBuscar.setVisible(false);
 				break;
 			case MODIFICAR:
 				btnInsertar.setEnabled(false);
 				btnEliminar.setEnabled(false);
 				btnModificar.setEnabled(true);
-				btnBuscar.setVisible(true);
 				cargarProveedores();
 				break;
 			case ELIMINAR:
 				btnInsertar.setEnabled(false);
 				btnEliminar.setEnabled(true);
 				btnModificar.setEnabled(false);
-				btnBuscar.setVisible(true);
+				cargarProveedores();
+				break;
+			case MODIFICARELIMINAR:
+				btnInsertar.setEnabled(false);
+				btnEliminar.setEnabled(true);
+				btnModificar.setEnabled(true);
 				cargarProveedores();
 				break;
 			case LISTAR:
@@ -151,6 +159,16 @@ public class VProveedores extends JFrame {
 		contentPane.setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if(tabbedPane.getSelectedIndex()==1){
+					cambiarModo(Modo.INSERTAR);
+				}else{
+					cargarProveedores();
+				}
+			}
+		});
+
 		tabbedPane.setBounds(12, 13, 858, 427);
 		contentPane.add(tabbedPane);
 		
@@ -177,6 +195,37 @@ public class VProveedores extends JFrame {
 		lblNewLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
 		
 		tfCodigo = new JTextField();
+		tfCodigo.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				boolean encontrado = false;
+				if(!tfCodigo.getText().equalsIgnoreCase("")){
+					Iterator it = proveedores.iterator();
+					while(it.hasNext()){
+						Proveedores pro = (Proveedores) it.next();
+						if(pro.getCodigo().equalsIgnoreCase(tfCodigo.getText())){
+							p = pro;
+							rellenarCampos();
+							encontrado = true;
+							cambiarModo(Modo.MODIFICARELIMINAR);
+							break;
+						}
+					}
+					if(!encontrado){
+						if(modo==Modo.MODIFICARELIMINAR || modo==Modo.MODIFICAR || modo==Modo.ELIMINAR){
+							JOptionPane.showMessageDialog(contentPane, "Proveedor no encontrado", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
+							cambiarModo(Modo.INSERTAR);
+						}else if(modo==Modo.INSERTAR){
+							cambiarModo(Modo.INSERTAR);
+						}else{
+							cambiarModo(Modo.MODIFICARELIMINAR);
+						}
+					}
+				}else{
+					JOptionPane.showMessageDialog(contentPane, "Debes escribir algo que buscar", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 		tfCodigo.setBounds(404, 23, 275, 24);
 		panel_2.add(tfCodigo);
 		tfCodigo.setFont(new Font("Verdana", Font.PLAIN, 18));
@@ -218,33 +267,6 @@ public class VProveedores extends JFrame {
 		panel_2.add(lblDireccin);
 		lblDireccin.setFont(new Font("Verdana", Font.PLAIN, 18));
 		
-		btnBuscar = new JButton("Buscar");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean encontrado = false;
-				if(!tfCodigo.getText().equalsIgnoreCase("")){
-					Iterator it = proveedores.iterator();
-					while(it.hasNext()){
-						Proveedores pro = (Proveedores) it.next();
-						if(pro.getCodigo().equalsIgnoreCase(tfCodigo.getText())){
-							p = pro;
-							rellenarCampos();
-							encontrado = true;
-							break;
-						}
-					}
-					if(!encontrado){
-						JOptionPane.showMessageDialog(contentPane, "Proveedor no encontrado", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}else{
-					JOptionPane.showMessageDialog(contentPane, "Debes escribir algo que buscar", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		});
-		btnBuscar.setFont(new Font("Verdana", Font.PLAIN, 16));
-		btnBuscar.setBounds(689, 20, 101, 31);
-		panel_2.add(btnBuscar);
-		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(null);
 		panel_3.setBounds(180, 302, 500, 45);
@@ -275,7 +297,7 @@ public class VProveedores extends JFrame {
 				p.setCodigo(tfCodigo.getText());
 				p.setDireccion(tfDireccion.getText());
 				Sesion.guardar(p);
-				
+				JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar proveedor", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnInsertar.setFont(new Font("Verdana", Font.PLAIN, 16));
@@ -296,6 +318,7 @@ public class VProveedores extends JFrame {
 					p.setNombre(tfNombre.getText());
 				}
 				Sesion.modificar(p);
+				JOptionPane.showMessageDialog(contentPane, "Modificado correctamente", "Modificar proveedor", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnModificar.setBounds(248, 5, 113, 31);
@@ -305,7 +328,11 @@ public class VProveedores extends JFrame {
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Sesion.borrar(p);
+				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Quieres eliminar el proveeodor?", "Eliminar proveedor",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(opcion==JOptionPane.OK_OPTION){
+					Sesion.borrar(p);
+					JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proveedor", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnEliminar.setBounds(375, 5, 107, 31);
@@ -442,9 +469,15 @@ public class VProveedores extends JFrame {
 		JButton btnEjecutarConsultla = new JButton("Ejecutar consulta");
 		btnEjecutarConsultla.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				cargarProveedores();
 				proveedorActual = 0;
-				llenarCamposListado();
-				comprobarBotones();
+				if(proveedores.size()==0){
+					JOptionPane.showMessageDialog(getContentPane(), "No existen proveedores", "Búsquedad de proveedores", JOptionPane.ERROR_MESSAGE);
+				}else{
+					llenarCamposListado();
+					comprobarBotones();
+				}
+				
 			}
 		});
 		btnEjecutarConsultla.setFont(new Font("Verdana", Font.PLAIN, 18));

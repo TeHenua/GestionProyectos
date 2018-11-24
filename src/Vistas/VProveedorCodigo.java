@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -32,6 +33,7 @@ public class VProveedorCodigo extends JFrame {
 	private JComboBox comboBox;
 	private JTextPane textPane;
 	private List<Proveedores> proveedores;
+	private List<Proveedores> proveedoresCombo;
 	private Proveedores p;
 
 	public void cargarProveedores() {
@@ -52,14 +54,6 @@ public class VProveedorCodigo extends JFrame {
 				}
 			}
 		});
-	}
-	
-	private void rellenarCampos() {
-				
-	}
-	
-	private void llenarCombo(){
-		
 	}
 
 	/**
@@ -88,16 +82,25 @@ public class VProveedorCodigo extends JFrame {
 		JButton btnBuscarProveedor = new JButton("Buscar Proveedor");
 		btnBuscarProveedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean encontrado = false;
 				if(!tfCodigo.getText().equalsIgnoreCase("")){
+					comboBox.removeAllItems();
+					textPane.setText("");
 					Iterator it = proveedores.iterator();
+					proveedoresCombo = new ArrayList<>();
 					while(it.hasNext()){
 						Proveedores pro = (Proveedores) it.next();
 						if(pro.getCodigo().toLowerCase().contains(tfCodigo.getText().toLowerCase())){
+							proveedoresCombo.add(pro);
 							comboBox.addItem(pro.getNombre()+" "+pro.getApellidos());
+							encontrado = true;
 						}
 					}
+					if(!encontrado){
+						JOptionPane.showMessageDialog(contentPane, "Proveedor no encontrado", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
+					}
 				}else{
-					//TODO 
+					JOptionPane.showMessageDialog(contentPane, "Debes escribir algo que buscar", "Búsqueda de proveedores", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -106,6 +109,18 @@ public class VProveedorCodigo extends JFrame {
 		contentPane.add(btnBuscarProveedor);
 		
 		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBox.getSelectedIndex()>-1){
+					p = proveedoresCombo.get(comboBox.getSelectedIndex());
+					String salida = "\nCÓDIGO: "+p.getCodigo().toString()+"\n\n";
+					salida += "NOMBRE: "+p.getNombre()+"\n\n";
+					salida += "APELLIDOS: "+p.getApellidos()+"\n\n";
+					salida += "DIRECCIÓN: "+p.getDireccion()+"\n\n";
+					textPane.setText(salida);	
+				}	
+			}
+		});
 		comboBox.setFont(new Font("Verdana", Font.PLAIN, 18));
 		comboBox.setBounds(226, 100, 385, 26);
 		contentPane.add(comboBox);
