@@ -57,6 +57,27 @@ public class VProveedores extends JFrame {
 	public Modo modo;
 	private int proveedorActual=0;
 	
+	private boolean comprobarCamposVacios(){
+		String errorMsg ="";
+		boolean error = false;
+		if(tfCodigo.getText().equals("")){
+			errorMsg += "El código no puede estar vacío";
+			error = true;
+		}else if(tfNombre.getText().equals("")){
+			errorMsg += "El nombre no puede estar vacío";
+			error = true;
+		}else if(tfApellidos.getText().equals("")){
+			errorMsg += "El apellido no puede estar vacío";			
+			error = true;
+		}else if(tfDireccion.getText().equals("")){
+			errorMsg += "La dirección no puede estar vacía";
+			error = true;
+		}
+		if(error){
+			JOptionPane.showMessageDialog(contentPane, errorMsg, "Error!", JOptionPane.ERROR_MESSAGE);
+		}
+		return error;
+	}
 	
 	public void cambiarModo(Modo modo){
 		this.modo = modo;
@@ -105,6 +126,11 @@ public class VProveedores extends JFrame {
 		}else if(proveedorActual==proveedores.size()-1){
 			btInicio.setEnabled(true);
 			btAnterior.setEnabled(true);
+			btSiguiente.setEnabled(false);
+			btFin.setEnabled(false);
+		}else if(proveedores.size()==1){
+			btInicio.setEnabled(false);
+			btAnterior.setEnabled(false);
 			btSiguiente.setEnabled(false);
 			btFin.setEnabled(false);
 		}
@@ -276,10 +302,7 @@ public class VProveedores extends JFrame {
 		JButton btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tfCodigo.setText("");
-				tfNombre.setText("");
-				tfApellidos.setText("");
-				tfDireccion.setText("");
+				limpiar();
 			}
 		});
 		btnLimpiar.setBounds(14, 5, 101, 31);
@@ -291,13 +314,17 @@ public class VProveedores extends JFrame {
 		panel_3.add(btnInsertar);
 		btnInsertar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				p =  new Proveedores();
-				p.setNombre(tfNombre.getText());
-				p.setApellidos(tfApellidos.getText());
-				p.setCodigo(tfCodigo.getText());
-				p.setDireccion(tfDireccion.getText());
-				Sesion.guardar(p);
-				JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar proveedor", JOptionPane.INFORMATION_MESSAGE);
+				if(!comprobarCamposVacios()){
+					p =  new Proveedores();
+					p.setNombre(tfNombre.getText());
+					p.setApellidos(tfApellidos.getText());
+					p.setCodigo(tfCodigo.getText().toUpperCase());
+					p.setDireccion(tfDireccion.getText());
+					Sesion.guardar(p);
+					JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar proveedor", JOptionPane.INFORMATION_MESSAGE);
+					limpiar();
+					cargarProveedores();
+				}
 			}
 		});
 		btnInsertar.setFont(new Font("Verdana", Font.PLAIN, 16));
@@ -305,20 +332,24 @@ public class VProveedores extends JFrame {
 		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!p.getApellidos().equals(tfApellidos.getText())){
-					p.setApellidos(tfApellidos.getText());
+				if(!comprobarCamposVacios()){
+					if(!p.getApellidos().equals(tfApellidos.getText())){
+						p.setApellidos(tfApellidos.getText());
+					}
+					if(!p.getCodigo().equals(tfCodigo.getText())){
+						p.setCodigo(tfCodigo.getText().toUpperCase());
+					}
+					if(!p.getNombre().equals(tfNombre.getText())){
+						p.setNombre(tfNombre.getText());
+					}
+					if(!p.getDireccion().equals(tfDireccion.getText())){
+						p.setDireccion(tfDireccion.getText());
+					}
+					Sesion.modificar(p);
+					JOptionPane.showMessageDialog(contentPane, "Modificado correctamente", "Modificar proveedor", JOptionPane.INFORMATION_MESSAGE);
+					limpiar();
+					cargarProveedores();
 				}
-				if(!p.getCodigo().equals(tfCodigo.getText())){
-					p.setCodigo(tfCodigo.getText());
-				}
-				if(!p.getNombre().equals(tfNombre.getText())){
-					p.setNombre(tfNombre.getText());
-				}
-				if(!p.getNombre().equals(tfNombre.getText())){
-					p.setNombre(tfNombre.getText());
-				}
-				Sesion.modificar(p);
-				JOptionPane.showMessageDialog(contentPane, "Modificado correctamente", "Modificar proveedor", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		btnModificar.setBounds(248, 5, 113, 31);
@@ -332,6 +363,8 @@ public class VProveedores extends JFrame {
 				if(opcion==JOptionPane.OK_OPTION){
 					Sesion.borrar(p);
 					JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proveedor", JOptionPane.INFORMATION_MESSAGE);
+					limpiar();
+					cargarProveedores();
 				}
 			}
 		});
@@ -361,6 +394,7 @@ public class VProveedores extends JFrame {
 		pListado.add(label_1);
 		
 		jtlCodigo = new JTextField();
+		jtlCodigo.setEnabled(false);
 		jtlCodigo.setFont(new Font("Verdana", Font.PLAIN, 18));
 		jtlCodigo.setColumns(10);
 		jtlCodigo.setBounds(395, 117, 116, 26);
@@ -372,6 +406,7 @@ public class VProveedores extends JFrame {
 		pListado.add(label_2);
 		
 		jtlNombre = new JTextField();
+		jtlNombre.setEnabled(false);
 		jtlNombre.setFont(new Font("Verdana", Font.PLAIN, 18));
 		jtlNombre.setColumns(10);
 		jtlNombre.setBounds(395, 156, 275, 26);
@@ -383,6 +418,7 @@ public class VProveedores extends JFrame {
 		pListado.add(label_3);
 		
 		jtlApellidos = new JTextField();
+		jtlApellidos.setEnabled(false);
 		jtlApellidos.setFont(new Font("Verdana", Font.PLAIN, 18));
 		jtlApellidos.setColumns(10);
 		jtlApellidos.setBounds(395, 195, 275, 26);
@@ -394,6 +430,7 @@ public class VProveedores extends JFrame {
 		pListado.add(label_4);
 		
 		jtlDireccion = new JTextField();
+		jtlDireccion.setEnabled(false);
 		jtlDireccion.setFont(new Font("Verdana", Font.PLAIN, 18));
 		jtlDireccion.setColumns(10);
 		jtlDireccion.setBounds(395, 234, 275, 26);
@@ -483,6 +520,14 @@ public class VProveedores extends JFrame {
 		btnEjecutarConsultla.setFont(new Font("Verdana", Font.PLAIN, 18));
 		btnEjecutarConsultla.setBounds(189, 311, 481, 25);
 		pListado.add(btnEjecutarConsultla);
+	}
+
+	protected void limpiar() {
+		tfCodigo.setText("");
+		tfNombre.setText("");
+		tfApellidos.setText("");
+		tfDireccion.setText("");
+		
 	}
 
 

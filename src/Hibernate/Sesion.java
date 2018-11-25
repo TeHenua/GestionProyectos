@@ -52,8 +52,25 @@ public class Sesion {
 	public static List<Proveedores> cargarProveedores() {
 		sesion();
 		query = session.createQuery("from Proveedores");
-		List<Proveedores> proveedores = query.list();
-		return proveedores;
+		List<Proveedores> prov = query.list();
+		session.close();
+		return prov;
+	}
+	
+	public static List<Piezas> cargarPiezas() {
+		sesion();
+		query = session.createQuery("from Piezas");
+		List<Piezas> piezas = query.list();
+		session.close();
+		return piezas;
+	}
+	
+	public static List<Proyectos> cargarProyectos() {
+		sesion();
+		query = session.createQuery("from Proyectos");
+		List<Proyectos> pro = query.list();
+		session.close();
+		return pro;
 	}
 
 	public static void borrar(Object object) {
@@ -64,4 +81,8 @@ public class Sesion {
 		System.out.println("Eliminado " + object.getClass());
 		session.close();
 	}
+
+
+
+	
 }

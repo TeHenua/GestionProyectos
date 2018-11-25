@@ -1,8 +1,10 @@
 package Vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -45,11 +47,12 @@ public class VHome extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		JLabel lblBaseDeDatos = new JLabel("Base de Datos");
-		lblBaseDeDatos.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		lblBaseDeDatos.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		menuBar.add(lblBaseDeDatos);
 		
 		JMenu mnProveedores = new JMenu("Proveedores");
@@ -138,25 +141,68 @@ public class VHome extends JFrame {
 		JMenu mnGestinDePiezas = new JMenu("Gesti\u00F3n de Piezas");
 		mnPiezas.add(mnGestinDePiezas);
 		
+		//PIEZAS
 		JMenuItem menuItem = new JMenuItem("Altas");
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezas vp = new VPiezas();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.INSERTAR);
+			}
+		});
 		mnGestinDePiezas.add(menuItem);
 		
 		JMenuItem menuItem_2 = new JMenuItem("Bajas");
+		menuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezas vp = new VPiezas();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.ELIMINAR);
+			}
+		});
 		mnGestinDePiezas.add(menuItem_2);
 		
 		JMenuItem menuItem_3 = new JMenuItem("Modificaciones");
+		menuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezas vp = new VPiezas();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.MODIFICAR);
+			}
+		});
 		mnGestinDePiezas.add(menuItem_3);
 		
 		JMenuItem menuItem_1 = new JMenuItem("Listado");
+		menuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezas vp = new VPiezas();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.LISTAR);
+			}
+		});
 		mnGestinDePiezas.add(menuItem_1);
 		
 		JMenu mnConsultaPiezas = new JMenu("Consulta de Piezas");
 		mnPiezas.add(mnConsultaPiezas);
 		
 		JMenuItem menuItem_4 = new JMenuItem("Consulta por C\u00F3digo");
+		menuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezaCodigo vpc = new VPiezaCodigo();
+				vpc.setVisible(true);
+				vpc.cargarPiezas();
+			}
+		});
 		mnConsultaPiezas.add(menuItem_4);
 		
 		JMenuItem menuItem_5 = new JMenuItem("Consulta por Nombre");
+		menuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezaNombre vpc = new VPiezaNombre();
+				vpc.setVisible(true);
+				vpc.cargarPiezas();
+			}
+		});
 		mnConsultaPiezas.add(menuItem_5);
 		
 		JMenu mnProyectos = new JMenu("Proyectos");
@@ -164,45 +210,112 @@ public class VHome extends JFrame {
 		
 		JMenu mnGestinDeProyectos = new JMenu("Gesti\u00F3n de Proyectos");
 		mnProyectos.add(mnGestinDeProyectos);
-		
+		//PROYECTOS
 		JMenuItem menuItem_6 = new JMenuItem("Altas");
+		menuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectos vp = new VProyectos();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.INSERTAR);
+			}
+		});
 		mnGestinDeProyectos.add(menuItem_6);
 		
 		JMenuItem menuItem_7 = new JMenuItem("Bajas");
+		menuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectos vp = new VProyectos();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.ELIMINAR);
+			}
+		});
 		mnGestinDeProyectos.add(menuItem_7);
 		
 		JMenuItem menuItem_8 = new JMenuItem("Modificaciones");
+		menuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectos vp = new VProyectos();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.MODIFICAR);
+			}
+		});
 		mnGestinDeProyectos.add(menuItem_8);
 		
 		JMenuItem menuItem_9 = new JMenuItem("Listado");
+		menuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectos vp = new VProyectos();
+				vp.setVisible(true);
+				vp.cambiarModo(Modo.LISTAR);
+			}
+		});
 		mnGestinDeProyectos.add(menuItem_9);
 		
 		JMenu mnConsultaDeProyectos = new JMenu("Consulta de Proyectos");
 		mnProyectos.add(mnConsultaDeProyectos);
 		
 		JMenuItem menuItem_10 = new JMenuItem("Consulta por C\u00F3digo");
+		menuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectoCodigo vpc = new VProyectoCodigo();
+				vpc.setVisible(true);
+				vpc.cargarProyectos();
+			}
+		});
 		mnConsultaDeProyectos.add(menuItem_10);
 		
 		JMenuItem menuItem_11 = new JMenuItem("Consulta por Nombre");
+		menuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectoNombre vpc = new VProyectoNombre();
+				vpc.setVisible(true);
+				vpc.cargarProyectos();
+			}
+		});
 		mnConsultaDeProyectos.add(menuItem_11);
 		
 		JMenuItem mntmConsultaPorCiudad = new JMenuItem("Consulta por Ciudad");
+		mntmConsultaPorCiudad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VProyectoCiudad vpc = new VProyectoCiudad();
+				vpc.setVisible(true);
+				vpc.cargarProyectos();
+			}
+		});
 		mnConsultaDeProyectos.add(mntmConsultaPorCiudad);
 		
 		JMenu mnGestin = new JMenu("Gesti\u00F3n Global");
 		menuBar.add(mnGestin);
 		
-		JMenu mnPiezas_1 = new JMenu("Piezas, Proveedores y Productos");
-		mnGestin.add(mnPiezas_1);
+		JMenuItem mntmPiezasProveedoresY = new JMenuItem("Piezas, Proveedores y Productos");
+		mntmPiezasProveedoresY.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VPiezasProveedoresProductos vpp = new VPiezasProveedoresProductos();
+				vpp.setVisible(true);
+			}
+		});
+		mnGestin.add(mntmPiezasProveedoresY);
 		
-		JMenu mnSuministrosPorProveedor = new JMenu("Suministros por Proveedor");
-		mnGestin.add(mnSuministrosPorProveedor);
+		JMenuItem mntmNewMenuItem = new JMenuItem("Suministros por Proveedor");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnGestin.add(mntmNewMenuItem);
 		
-		JMenu mnSuministrosPorPiezas = new JMenu("Suministros por Piezas");
-		mnGestin.add(mnSuministrosPorPiezas);
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Suministros por Piezas");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnGestin.add(mntmNewMenuItem_1);
 		
-		JMenu mnEstadsticas = new JMenu("Estad\u00EDsticas");
-		mnGestin.add(mnEstadsticas);
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Estad\u00EDsticas");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		mnGestin.add(mntmNewMenuItem_2);
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
@@ -210,5 +323,10 @@ public class VHome extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		JLabel imagen = new JLabel("");
+		imagen.setBounds(0, 0, 982, 527);
+		imagen.setIcon(new ImageIcon(VHome.class.getResource("../fondo.png")));
+		contentPane.add(imagen);
 	}
 }
