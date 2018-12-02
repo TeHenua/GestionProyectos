@@ -23,6 +23,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import java.awt.Rectangle;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VSuministrosPiezas extends JFrame {
 
@@ -86,6 +88,11 @@ public class VSuministrosPiezas extends JFrame {
 		panel.add(lblPieza);
 		
 		comboBox = new JComboBox();
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		comboBox.setFont(new Font("Verdana", Font.PLAIN, 18));
 		comboBox.setBounds(148, 0, 141, 31);
 		panel.add(comboBox);

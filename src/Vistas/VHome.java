@@ -333,6 +333,10 @@ public class VHome extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Suministros por Piezas");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VSuministrosPiezas vss = new VSuministrosPiezas();
+				vss.setLocation(150, 200);
+				vss.setVisible(true);
+				vss.cargarPiezas();
 			}
 		});
 		mnGestin.add(mntmNewMenuItem_1);
