@@ -57,13 +57,15 @@ public class VProyectos extends JFrame {
 		String errorMsg ="";
 		boolean error = false;
 		if(jtCodigo.getText().equals("")){
-			errorMsg += "El código no puede estar vacío";
+			errorMsg += "El código no puede estar vacío\n";
 			error = true;
-		}else if(jtNombre.getText().equals("")){
-			errorMsg += "El nombre no puede estar vacío";
+		}
+		if(jtNombre.getText().equals("")){
+			errorMsg += "El nombre no puede estar vacío\n";
 			error = true;
-		}else if(jtCiudad.getText().equals("")){
-			errorMsg += "La ciudad no puede estar vacía";
+		}
+		if(jtCiudad.getText().equals("")){
+			errorMsg += "La ciudad no puede estar vacía\n";
 			error = true;
 		}
 		if(error){
@@ -292,9 +294,25 @@ public class VProyectos extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
 					p =  new Proyectos();
-					p.setNombre(jtNombre.getText());
-					p.setCodigo(jtCodigo.getText().toUpperCase());
-					p.setCiudad(jtCiudad.getText());
+					String codigo = jtCodigo.getText().toUpperCase();
+					String nombre = jtNombre.getText();
+					String ciudad = jtCiudad.getText();
+					
+					if(codigo.length()>6){
+						p.setCodigo(codigo.substring(0,6));
+					}else{
+						p.setCodigo(codigo);
+					}
+					if(nombre.length()>40){
+						p.setNombre(nombre.substring(0, 40));
+					}else{
+						p.setNombre(nombre);
+					}
+					if(ciudad.length()>40){
+						p.setCiudad(ciudad.substring(0, 40));
+					}else{
+						p.setCiudad(ciudad);
+					}
 					Sesion.guardar(p);
 					JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar proyecto", JOptionPane.INFORMATION_MESSAGE);
 					limpiar();
@@ -311,14 +329,30 @@ public class VProyectos extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
-					if(!p.getCodigo().equals(jtCodigo.getText())){
-						p.setCodigo(jtCodigo.getText().toUpperCase());
+					String codigo = jtCodigo.getText().toUpperCase();
+					String nombre = jtNombre.getText();
+					String ciudad = jtCiudad.getText();
+					
+					if(!p.getCodigo().equals(codigo)){
+						if(codigo.length()>6){
+							p.setCodigo(codigo.substring(0,6));
+						}else{
+							p.setCodigo(codigo);
+						}
 					}
-					if(!p.getNombre().equals(jtNombre.getText())){
-						p.setNombre(jtNombre.getText());
+					if(!p.getNombre().equals(nombre)){
+						if(nombre.length()>40){
+							p.setNombre(nombre.substring(0, 40));
+						}else{
+							p.setNombre(nombre);
+						}
 					}
-					if(!p.getCiudad().equals(jtCiudad.getText())){
-						p.setCiudad(jtCiudad.getText());
+					if(!p.getCiudad().equals(ciudad)){
+						if(ciudad.length()>40){
+							p.setCiudad(ciudad.substring(0, 40));
+						}else{
+							p.setCiudad(ciudad);
+						}
 					}
 					Sesion.modificar(p);
 					JOptionPane.showMessageDialog(contentPane, "Modificado correctamente", "Modificar proyecto", JOptionPane.INFORMATION_MESSAGE);

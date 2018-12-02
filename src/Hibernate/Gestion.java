@@ -9,6 +9,7 @@ public class Gestion implements java.io.Serializable {
 	private GestionId id;
 	private Piezas piezas;
 	private Proyectos proyectos;
+	private Proveedores proveedores;
 	private Float cantidad;
 
 	public Gestion() {
@@ -49,6 +50,14 @@ public class Gestion implements java.io.Serializable {
 
 	public void setProyectos(Proyectos proyectos) {
 		this.proyectos = proyectos;
+	}
+
+	public Proveedores getProveedores() {
+		return proveedores;
+	}
+
+	public void setProveedores(Proveedores proveedores) {
+		this.proveedores = proveedores;
 	}
 
 	public Float getCantidad() {

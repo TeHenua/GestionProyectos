@@ -61,16 +61,19 @@ public class VProveedores extends JFrame {
 		String errorMsg ="";
 		boolean error = false;
 		if(tfCodigo.getText().equals("")){
-			errorMsg += "El código no puede estar vacío";
+			errorMsg += "El código no puede estar vacío\n";
 			error = true;
-		}else if(tfNombre.getText().equals("")){
-			errorMsg += "El nombre no puede estar vacío";
+		}
+		if(tfNombre.getText().equals("")){
+			errorMsg += "El nombre no puede estar vacío\n";
 			error = true;
-		}else if(tfApellidos.getText().equals("")){
-			errorMsg += "El apellido no puede estar vacío";			
+		}
+		if(tfApellidos.getText().equals("")){
+			errorMsg += "El apellido no puede estar vacío\n";			
 			error = true;
-		}else if(tfDireccion.getText().equals("")){
-			errorMsg += "La dirección no puede estar vacía";
+		}
+		if(tfDireccion.getText().equals("")){
+			errorMsg += "La dirección no puede estar vacía\n";
 			error = true;
 		}
 		if(error){
@@ -316,10 +319,32 @@ public class VProveedores extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
 					p =  new Proveedores();
-					p.setNombre(tfNombre.getText());
-					p.setApellidos(tfApellidos.getText());
-					p.setCodigo(tfCodigo.getText().toUpperCase());
-					p.setDireccion(tfDireccion.getText());
+					String codigo = tfCodigo.getText().toUpperCase();
+					String nombre = tfNombre.getText();
+					String apellidos = tfApellidos.getText();
+					String direccion = tfDireccion.getText();
+					
+					if(codigo.length()>6){
+						p.setCodigo(codigo.substring(0,6));
+					}else{
+						p.setCodigo(codigo);
+					}
+					if(nombre.length()>20){
+						p.setNombre(nombre.substring(0, 20));
+					}else{
+						p.setNombre(nombre);
+					}
+					if(apellidos.length()>30){
+						p.setApellidos(apellidos.substring(0, 30));
+					}else{
+						p.setApellidos(apellidos);
+					}
+					if(direccion.length()>40){
+						p.setDireccion(direccion.substring(0, 40));
+					}else{
+						p.setDireccion(direccion);
+					}
+					
 					Sesion.guardar(p);
 					JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar proveedor", JOptionPane.INFORMATION_MESSAGE);
 					limpiar();
@@ -333,17 +358,38 @@ public class VProveedores extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
-					if(!p.getApellidos().equals(tfApellidos.getText())){
-						p.setApellidos(tfApellidos.getText());
+					String codigo = tfCodigo.getText().toUpperCase();
+					String nombre = tfNombre.getText();
+					String apellidos = tfApellidos.getText();
+					String direccion = tfDireccion.getText();
+					
+					if(!p.getCodigo().equals(codigo)){
+						if(codigo.length()>6){
+							p.setCodigo(codigo.substring(0,6));
+						}else{
+							p.setCodigo(codigo);
+						}
 					}
-					if(!p.getCodigo().equals(tfCodigo.getText())){
-						p.setCodigo(tfCodigo.getText().toUpperCase());
+					if(!p.getNombre().equals(nombre)){
+						if(nombre.length()>20){
+							p.setNombre(nombre.substring(0, 20));
+						}else{
+							p.setNombre(nombre);
+						}
 					}
-					if(!p.getNombre().equals(tfNombre.getText())){
-						p.setNombre(tfNombre.getText());
-					}
-					if(!p.getDireccion().equals(tfDireccion.getText())){
-						p.setDireccion(tfDireccion.getText());
+					if(!p.getApellidos().equals(apellidos)){
+						if(apellidos.length()>30){
+							p.setApellidos(apellidos.substring(0, 30));
+						}else{
+							p.setApellidos(apellidos);
+						}
+					}			
+					if(!p.getDireccion().equals(direccion)){
+						if(direccion.length()>40){
+							p.setDireccion(direccion.substring(0, 40));
+						}else{
+							p.setDireccion(direccion);
+						}
 					}
 					Sesion.modificar(p);
 					JOptionPane.showMessageDialog(contentPane, "Modificado correctamente", "Modificar proveedor", JOptionPane.INFORMATION_MESSAGE);

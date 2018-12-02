@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+
 public class Sesion {
 	private static Configuration configuration;
 	private static SessionFactory factory;
@@ -72,6 +73,14 @@ public class Sesion {
 		session.close();
 		return pro;
 	}
+	
+	public static List<Gestion> cargarGestiones() {
+		sesion();
+		query = session.createQuery("from Gestion");
+		List<Gestion> ges = query.list();
+		session.close();
+		return ges;
+	}
 
 	public static void borrar(Object object) {
 		sesion();
@@ -81,6 +90,8 @@ public class Sesion {
 		System.out.println("Eliminado " + object.getClass());
 		session.close();
 	}
+
+
 
 
 

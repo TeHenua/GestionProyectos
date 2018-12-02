@@ -62,7 +62,7 @@ public class VPiezas extends JFrame {
 		try{
 			Float.parseFloat(tfPrecio.getText());
 			if(Float.parseFloat(tfPrecio.getText())==0){
-				errorMsg += "El precio no puede ser 0";			
+				errorMsg += "El precio no puede ser 0\n";			
 				error = true;
 			}
 		}catch(NumberFormatException e){
@@ -70,16 +70,19 @@ public class VPiezas extends JFrame {
 			error = true;
 		}
 		if(tfCodigo.getText().equals("")){
-			errorMsg += "El código no puede estar vacío";
+			errorMsg += "El código no puede estar vacío\n";
 			error = true;
-		}else if(tfNombre.getText().equals("")){
-			errorMsg += "El nombre no puede estar vacío";
+		}
+		if(tfNombre.getText().equals("")){
+			errorMsg += "El nombre no puede estar vacío\n";
 			error = true;
-		}else if(tfPrecio.getText().equals("")){
-			errorMsg += "El precio no puede estar vacío";			
+		}
+		if(tfPrecio.getText().equals("")){
+			errorMsg += "El precio no puede estar vacío\n";			
 			error = true;
-		}else if(tfDescripcion.getText().equals("")){
-			errorMsg += "La descripción no puede estar vacía";
+		}
+		if(tfDescripcion.getText().equals("")){
+			errorMsg += "La descripción no puede estar vacía\n";
 			error = true;
 		}
 		if(error){
@@ -236,9 +239,21 @@ public class VPiezas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
 					p =  new Piezas();
-					p.setNombre(tfNombre.getText());
+					String codigo = tfCodigo.getText().toUpperCase();
+					String nombre = tfNombre.getText();
+					
+					if(codigo.length()>6){
+						p.setCodigo(codigo.substring(0,6));
+					}else{
+						p.setCodigo(codigo);
+					}
+					if(nombre.length()>20){
+						p.setNombre(nombre.substring(0, 20));
+					}else{
+						p.setNombre(nombre);
+					}
+					
 					p.setPrecio(Float.parseFloat(tfPrecio.getText()));
-					p.setCodigo(tfCodigo.getText().toUpperCase());
 					p.setDescipcion(tfDescripcion.getText());
 					Sesion.guardar(p);
 					JOptionPane.showMessageDialog(contentPane, "Guardado correctamente", "Guardar pieza", JOptionPane.INFORMATION_MESSAGE);
@@ -256,14 +271,26 @@ public class VPiezas extends JFrame {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!comprobarCamposVacios()){
-					if(!(Float.parseFloat(tfPrecio.getText())==p.getPrecio())){
-					p.setPrecio(Float.parseFloat(tfPrecio.getText()));
+					String codigo = tfCodigo.getText().toUpperCase();
+					String nombre = tfNombre.getText();
+					
+					if(!p.getCodigo().equals(codigo)){
+						if(codigo.length()>6){
+							p.setCodigo(codigo.substring(0,6));
+						}else{
+							p.setCodigo(codigo);
+						}
 					}
-					if(!p.getCodigo().equals(tfCodigo.getText())){
-						p.setCodigo(tfCodigo.getText().toUpperCase());
-					}
-					if(!p.getNombre().equals(tfNombre.getText())){
+					if(!p.getNombre().equals(nombre)){
+						if(nombre.length()>20){
+							p.setNombre(nombre.substring(0, 20));
+						}else{
+							p.setNombre(nombre);
+						}
 						p.setNombre(tfNombre.getText());
+					}
+					if(!(Float.parseFloat(tfPrecio.getText())==p.getPrecio())){
+						p.setPrecio(Float.parseFloat(tfPrecio.getText()));
 					}
 					if(!p.getDescipcion().equals(tfDescripcion.getText())){
 						p.setDescipcion(tfDescripcion.getText());
@@ -517,7 +544,7 @@ public class VPiezas extends JFrame {
 				cargarPiezas();
 				piezaActual = 0;
 				if(piezas.size()==0){
-					JOptionPane.showMessageDialog(getContentPane(), "No existen proveedores", "Búsquedad de proveedores", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getContentPane(), "No existen proveedores", "Búsqueda de proveedores", JOptionPane.ERROR_MESSAGE);
 				}else{
 					llenarCamposListado();
 					comprobarBotones();

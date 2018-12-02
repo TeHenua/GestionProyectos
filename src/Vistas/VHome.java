@@ -66,6 +66,7 @@ public class VHome extends JFrame {
 		mntmAltas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedores vp = new VProveedores();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.INSERTAR);
 			}
@@ -76,6 +77,7 @@ public class VHome extends JFrame {
 		mntmBajas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedores vp = new VProveedores();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.ELIMINAR);
 			}
@@ -86,6 +88,7 @@ public class VHome extends JFrame {
 		mntmModificaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedores vp = new VProveedores();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.MODIFICAR);
 			}
@@ -96,6 +99,7 @@ public class VHome extends JFrame {
 		mntmListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedores vp = new VProveedores();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.LISTAR);
 			}
@@ -109,6 +113,7 @@ public class VHome extends JFrame {
 		mntmPorCdigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedorCodigo vpc = new VProveedorCodigo();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProveedores();
 			}
@@ -118,7 +123,8 @@ public class VHome extends JFrame {
 		JMenuItem mntmPorNombre = new JMenuItem("Consulta por Nombre");
 		mntmPorNombre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VProveedorNombre vpc = new VProveedorNombre();
+				VProveedorNombre vpc = new VProveedorNombre();				
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProveedores();
 			}
@@ -129,6 +135,7 @@ public class VHome extends JFrame {
 		mntmPorDireccin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProveedorDireccion vpc = new VProveedorDireccion();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProveedores();
 			}
@@ -146,6 +153,7 @@ public class VHome extends JFrame {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezas vp = new VPiezas();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.INSERTAR);
 			}
@@ -156,6 +164,7 @@ public class VHome extends JFrame {
 		menuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezas vp = new VPiezas();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.ELIMINAR);
 			}
@@ -166,6 +175,7 @@ public class VHome extends JFrame {
 		menuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezas vp = new VPiezas();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.MODIFICAR);
 			}
@@ -176,6 +186,7 @@ public class VHome extends JFrame {
 		menuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezas vp = new VPiezas();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.LISTAR);
 			}
@@ -189,6 +200,7 @@ public class VHome extends JFrame {
 		menuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezaCodigo vpc = new VPiezaCodigo();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarPiezas();
 			}
@@ -199,6 +211,7 @@ public class VHome extends JFrame {
 		menuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezaNombre vpc = new VPiezaNombre();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarPiezas();
 			}
@@ -215,6 +228,7 @@ public class VHome extends JFrame {
 		menuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectos vp = new VProyectos();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.INSERTAR);
 			}
@@ -225,6 +239,7 @@ public class VHome extends JFrame {
 		menuItem_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectos vp = new VProyectos();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.ELIMINAR);
 			}
@@ -235,6 +250,7 @@ public class VHome extends JFrame {
 		menuItem_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectos vp = new VProyectos();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.MODIFICAR);
 			}
@@ -245,6 +261,7 @@ public class VHome extends JFrame {
 		menuItem_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectos vp = new VProyectos();
+				vp.setLocation(150,180);
 				vp.setVisible(true);
 				vp.cambiarModo(Modo.LISTAR);
 			}
@@ -258,6 +275,7 @@ public class VHome extends JFrame {
 		menuItem_10.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectoCodigo vpc = new VProyectoCodigo();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProyectos();
 			}
@@ -268,6 +286,7 @@ public class VHome extends JFrame {
 		menuItem_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectoNombre vpc = new VProyectoNombre();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProyectos();
 			}
@@ -278,6 +297,7 @@ public class VHome extends JFrame {
 		mntmConsultaPorCiudad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VProyectoCiudad vpc = new VProyectoCiudad();
+				vpc.setLocation(150,180);
 				vpc.setVisible(true);
 				vpc.cargarProyectos();
 			}
@@ -291,7 +311,9 @@ public class VHome extends JFrame {
 		mntmPiezasProveedoresY.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VPiezasProveedoresProductos vpp = new VPiezasProveedoresProductos();
+				vpp.setLocation(150,180);
 				vpp.setVisible(true);
+				vpp.cargarDatos();
 			}
 		});
 		mnGestin.add(mntmPiezasProveedoresY);
@@ -299,6 +321,11 @@ public class VHome extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Suministros por Proveedor");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VSuministrosProveedor vsp = new VSuministrosProveedor();
+				vsp.setLocation(150, 200);
+				vsp.setVisible(true);
+				vsp.cargarProveedores();
+				
 			}
 		});
 		mnGestin.add(mntmNewMenuItem);
