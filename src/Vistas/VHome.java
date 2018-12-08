@@ -344,6 +344,10 @@ public class VHome extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Estad\u00EDsticas");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VEstadisticas ve = new VEstadisticas();
+				ve.setLocation(150,180);
+				ve.setVisible(true);
+				ve.cargarEstadisticas();
 			}
 		});
 		mnGestin.add(mntmNewMenuItem_2);

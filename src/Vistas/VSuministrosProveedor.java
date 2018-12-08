@@ -95,6 +95,7 @@ public class VSuministrosProveedor extends JFrame {
 		panel.add(label);
 		
 		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Elige c\u00F3digo"}));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedIndex()>0){
@@ -123,7 +124,6 @@ public class VSuministrosProveedor extends JFrame {
 				}
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Elige c\u00F3digo"}));
 		comboBox.setFont(new Font("Verdana", Font.PLAIN, 18));
 		comboBox.setBounds(148, 0, 141, 31);
 		panel.add(comboBox);
