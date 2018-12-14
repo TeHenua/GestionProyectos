@@ -6,18 +6,14 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Hibernate.Gestion;
-import Hibernate.Piezas;
-import Hibernate.Proveedores;
-import Hibernate.Proyectos;
-import Hibernate.Sesion;
+import Hibernate.*;
 
-public class VTablaProyectos extends JFrame {
+public class VTablaProveedor extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -33,28 +29,28 @@ public class VTablaProyectos extends JFrame {
 		piezas = Sesion.cargarPiezas();
 		proyectos = Sesion.cargarProyectos();
 		model = (DefaultTableModel) table.getModel();		
-		for(Proyectos p:proyectos){
+		for(Proveedores p:proveedores){
 			int[] tipoPieza = new int[piezas.size()];
-			int[] tipoProvee = new int[proveedores.size()];
+			int[] tipoProy = new int[proyectos.size()];
 			for(int i=0;i<piezas.size();i++){
 				tipoPieza[i] = 0;
 			}
-			for(int i=0;i<proveedores.size();i++){
-				tipoProvee[i] = 0;
+			for(int i=0;i<proyectos.size();i++){
+				tipoProy[i] = 0;
 			}
 			float cantPiezas=0f;
 			int numPiezas=0;
-			int numProvee=0;
+			int numProy=0;
 			for(Gestion g:gestiones){
-				if(g.getId().getCodproyecto().equals(p.getCodigo())){
+				if(g.getId().getCodproveedor().equals(p.getCodigo())){
 					for(int i=0;i<piezas.size();i++){
 						if(g.getId().getCodpieza().equals(piezas.get(i).getCodigo())){
 							tipoPieza[i]++;
 						}
 					}
-					for(int i=0;i<proveedores.size();i++){
-						if(g.getId().getCodproveedor().equals(proveedores.get(i).getCodigo())){
-							tipoProvee[i]++;
+					for(int i=0;i<proyectos.size();i++){
+						if(g.getId().getCodproyecto().equals(proyectos.get(i).getCodigo())){
+							tipoProy[i]++;
 						}
 					}
 					cantPiezas+=g.getCantidad();
@@ -65,23 +61,22 @@ public class VTablaProyectos extends JFrame {
 					numPiezas=tipoPieza[i];
 				}
 			}
-			
-			for(int i=0;i<tipoProvee.length;i++){
-				if(tipoProvee[i]!=0){
-					numProvee++;
+			for(int i=0;i<tipoProy.length;i++){
+				if(tipoProy[i]!=0){
+					numProy++;
 				}
 			}
 			model.addRow(new Object[]{
 				p.getCodigo(),
 				p.getNombre(),
-				p.getCiudad(),
+				p.getApellidos(),
 				numPiezas,
 				cantPiezas,
-				numProvee
+				numProy
 			});
 		}
 	}
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -89,7 +84,7 @@ public class VTablaProyectos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VTablaProyectos frame = new VTablaProyectos();
+					VTablaProveedor frame = new VTablaProveedor();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,8 +96,8 @@ public class VTablaProyectos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VTablaProyectos() {
-		setTitle("N\u00DAMERO DE PIEZAS Y CANTIDAD DE PIEZAS SUMINISTRADAS EN PROYECTOS");
+	public VTablaProveedor() {
+		setTitle("N\u00DAMERO DE PIEZAS Y CANTIDAD DE PIEZAS SUMINISTRADAS POR PROVEEDOR");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 900, 300);
 		contentPane = new JPanel();
@@ -119,11 +114,12 @@ public class VTablaProyectos extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"Cod Proyecto", "Nombre", "Ciudad", "Nº Piezas", "Cantidad suministrada", "Nº Proveedores"
+				"Cod Proveedor", "Nombre", "Apellidos", "Nº Piezas", "Cantidad suministrada", "Nº Proyectos"
 			}
 		));
 		table.setBounds(0, 0, 1, 1);
 		scrollPane.setViewportView(table);
 	}
 
+	
 }

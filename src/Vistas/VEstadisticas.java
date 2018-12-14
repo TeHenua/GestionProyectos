@@ -226,7 +226,10 @@ public class VEstadisticas extends JFrame {
 		JButton btnProy = new JButton("N\u00BA de piezas y cantidad de piezas suministradas en proyectos");
 		btnProy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				VTablaProyectos vtp = new VTablaProyectos();
+				vtp.setLocation(150,700);
+				vtp.setVisible(true);
+				vtp.cargarDatos();
 			}
 		});
 		btnProy.setFont(new Font("Verdana", Font.PLAIN, 16));
@@ -274,8 +277,8 @@ public class VEstadisticas extends JFrame {
 		JButton btnProv = new JButton("N\u00BA de piezas y cantidad de piezas suministradas por proveedor");
 		btnProv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VTablaProyectos vtp = new VTablaProyectos();
-				vtp.setLocation(150,400);
+				VTablaProveedor vtp = new VTablaProveedor();
+				vtp.setLocation(150,700);
 				vtp.setVisible(true);
 				vtp.cargarDatos();
 			}
