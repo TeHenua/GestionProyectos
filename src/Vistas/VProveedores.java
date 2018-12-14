@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSplitPane;
 import java.awt.GridLayout;
 
+import Hibernate.Gestion;
 import Hibernate.Modo;
 import Hibernate.Proveedores;
 import Hibernate.Sesion;
@@ -54,6 +55,7 @@ public class VProveedores extends JFrame {
 	public JTabbedPane tabbedPane;
 	private Proveedores p;
 	private List<Proveedores> proveedores;
+	private List<Gestion> gestiones;
 	public Modo modo;
 	private int proveedorActual=0;
 	
@@ -157,6 +159,7 @@ public class VProveedores extends JFrame {
 
 	private void cargarProveedores() {
 		proveedores = Sesion.cargarProveedores();
+		gestiones = Sesion.cargarGestiones();
 	}
 
 	/**
@@ -407,10 +410,21 @@ public class VProveedores extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Quieres eliminar el proveeodor?", "Eliminar proveedor",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(opcion==JOptionPane.OK_OPTION){
-					Sesion.borrar(p);
-					JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proveedor", JOptionPane.INFORMATION_MESSAGE);
-					limpiar();
-					cargarProveedores();
+					boolean encontrado = false;
+					for(Gestion g:gestiones){
+						if(g.getId().getCodproveedor().equals(p.getCodigo())){
+							encontrado=true;
+						}
+					}
+					if(encontrado){
+						JOptionPane.showMessageDialog(contentPane, "No se puede borrar porque hay gestiones asociadas", "Borrar proveedor", JOptionPane.ERROR_MESSAGE);
+					}else{
+						Sesion.borrar(p);
+						JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proveedor", JOptionPane.INFORMATION_MESSAGE);
+						limpiar();
+						cargarProveedores();
+					}
+					
 				}
 			}
 		});

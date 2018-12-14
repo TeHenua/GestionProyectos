@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Hibernate.Gestion;
 import Hibernate.Modo;
 import Hibernate.Piezas;
 import Hibernate.Proveedores;
@@ -55,6 +56,7 @@ public class VPiezas extends JFrame {
 	private List<Piezas> piezas;
 	public Modo modo;
 	private int piezaActual=0;
+	private List<Gestion> gestiones;
 	
 	private boolean comprobarCamposVacios(){
 		String errorMsg ="";
@@ -165,6 +167,7 @@ public class VPiezas extends JFrame {
 
 	private void cargarPiezas() {
 		piezas = Sesion.cargarPiezas();
+		gestiones = Sesion.cargarGestiones();
 	}
 
 	/**
@@ -311,10 +314,21 @@ public class VPiezas extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Quieres eliminar la pieza?", "Eliminar pieza",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(opcion==JOptionPane.OK_OPTION){
-					Sesion.borrar(p);
-					JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar pieza", JOptionPane.INFORMATION_MESSAGE);
-					limpiar();
-					cargarPiezas();
+					boolean encontrado = false;
+					for(Gestion g:gestiones){
+						if(g.getId().getCodpieza().equals(p.getCodigo())){
+							encontrado=true;
+						}
+					}
+					if(encontrado){
+						JOptionPane.showMessageDialog(contentPane, "No se puede borrar porque hay gestiones asociadas", "Borrar pieza", JOptionPane.ERROR_MESSAGE);
+					}else{
+						Sesion.borrar(p);
+						JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar pieza", JOptionPane.INFORMATION_MESSAGE);
+						limpiar();
+						cargarPiezas();
+					}
+					
 				}
 			}
 		});

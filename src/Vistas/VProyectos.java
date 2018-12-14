@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Hibernate.Gestion;
 import Hibernate.Modo;
 import Hibernate.Proyectos;
 import Hibernate.Sesion;
@@ -50,6 +51,7 @@ public class VProyectos extends JFrame {
 	public JTabbedPane tabbedPane;
 	private Proyectos p;
 	private List<Proyectos> proyectos;
+	private List<Gestion> gestiones;
 	public Modo modo;
 	private int proyectoActual=0;
 	
@@ -147,6 +149,7 @@ public class VProyectos extends JFrame {
 
 	private void cargarProyectos() {
 		proyectos = Sesion.cargarProyectos();
+		gestiones = Sesion.cargarGestiones();
 	}
 	
 	/**
@@ -371,10 +374,20 @@ public class VProyectos extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int opcion = JOptionPane.showConfirmDialog(contentPane, "¿Quieres eliminar el proyecto?", "Eliminar proyecto",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if(opcion==JOptionPane.OK_OPTION){
-					Sesion.borrar(p);
-					JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proyecto", JOptionPane.INFORMATION_MESSAGE);
-					limpiar();
-					cargarProyectos();
+					boolean encontrado = false;
+					for(Gestion g:gestiones){
+						if(g.getId().getCodproyecto().equals(p.getCodigo())){
+							encontrado=true;
+						}
+					}
+					if(encontrado){
+						JOptionPane.showMessageDialog(contentPane, "No se puede borrar porque hay gestiones asociadas", "Borrar proyecto", JOptionPane.ERROR_MESSAGE);
+					}else{
+						Sesion.borrar(p);
+						JOptionPane.showMessageDialog(contentPane, "Borrado correctamente", "Borrar proyecto", JOptionPane.INFORMATION_MESSAGE);
+						limpiar();
+						cargarProyectos();
+					}
 				}
 			}
 		});
